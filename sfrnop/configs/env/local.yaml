@@ -1,0 +1,5 @@
+# Root folder for dataset
+data_root: "/path/to/dataset"
+
+# Work folder
+work_folder: "/path/to/workfolder"

@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Environments
+.env
+
+# Visual Studio Code
+.vscode/
+
+
+# Image
+*.png
+*.csv
+
+# Experiment files
+experiments/
+outputs/
+wandb/

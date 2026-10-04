@@ -1,0 +1,21 @@
+_target_: sfrnop.models.setonet.SetONet
+
+input_size_src: 2
+output_size_src: 1
+input_size_tgt: 2
+output_size_tgt: 1
+p: 128
+phi_hidden_size: 256
+rho_hidden_size: 256
+trunk_hidden_size: 256
+n_trunk_layers: 4
+activation_fn: nn.LeakyReLU
+use_deeponet_bias: true
+phi_output_size: 128
+use_positional_encoding: false
+pos_encoding_dim: 4
+pos_encoding_type: 'sinusoidal'
+pos_encoding_max_freq: 0.1
+encoding_strategy: 'concatenate'
+aggregation_type: 'attention'
+n_mics: ${training.n_mics}

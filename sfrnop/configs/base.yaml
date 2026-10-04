@@ -1,0 +1,68 @@
+defaults:
+  - _self_
+  - env: local
+  - model: SetONet
+
+training:
+  tags: 
+
+  alias: 
+  output_folder: ${env.work_folder}/models/${training.alias}
+
+  seed: 42
+  batch_size: 32
+  val_batch_size: 8
+  num_workers: 8
+
+  learning_rate: 0.001
+  
+  trainer:
+    max_epochs: 500
+    log_every_n_steps: 10
+    accelerator: gpu
+
+  num_microphones: [64, 512]
+  n_mics: 256
+  val_split: 0.1
+  
+  dataset:
+    _target_: sfrnop.data.dataset.SFRHDFDataset
+    data_root: ${env.data_root}/train
+    freq: null
+    num_samples: -1
+    
+  
+  physics_informed: false
+  lambda_physics: 
+
+  callbacks:
+    early_stopping:
+      monitor: val/loss_epoch
+      verbose: true
+      patience: 40
+      
+    model_checkpoint:
+      monitor: val/loss_epoch
+      verbose: true
+      save_last: true
+      filename: best
+      dirpath: ${training.output_folder}/checkpoints/
+
+evaluation:
+  accelerator: ${training.trainer.accelerator}
+  alias: ${training.alias}
+
+  batch_size: 32
+  num_workers: 8
+
+  num_microphones: 128
+
+  dataset:
+    _target_: sfrnop.data.dataset.SFRHDFDataset
+    data_root: ${env.data_root}/val
+    num_samples: -1
+    freq: 104
+    image_size: [32,32]
+
+
+  output_path: ${env.work_folder}/${evaluation.alias}/evaluation/metrics.csv
